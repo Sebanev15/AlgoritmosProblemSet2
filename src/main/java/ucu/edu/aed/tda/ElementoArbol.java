@@ -29,7 +29,7 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     }
 
     @Override
-    public Object getDato() {
+    public T getDato() {
         return null;
     }
 
