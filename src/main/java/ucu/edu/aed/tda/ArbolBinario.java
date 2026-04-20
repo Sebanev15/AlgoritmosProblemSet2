@@ -5,7 +5,16 @@ import java.util.function.Consumer;
 public class ArbolBinario<T> implements TDAArbolBinario<T>{
     @Override
     public T buscar(Comparable<T> predicate) {
-        return null;
+        if (esVacio()){
+            return null;
+        }
+        TDAElemento<T> actual = raiz.buscar(predicate);
+        if (actual == null){
+            return null;
+        }
+        else{
+            return actual.getDato();
+        }
     }
 
     @Override
@@ -40,6 +49,9 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
 
     @Override
     public boolean esVacio() {
+        if (this.raiz == null){
+            return true;
+        }
         return false;
     }
 
