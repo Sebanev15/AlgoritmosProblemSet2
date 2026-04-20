@@ -64,7 +64,27 @@ public class ElementoArbol<T> implements TDAElemento<T> {
 
     @Override
     public boolean insertar(Comparable<T> nuevoDato) {
-        return false;
+        ElementoArbol<T> nuevoElemento = new ElementoArbol<T>();
+        nuevoElemento.setDato((T) nuevoDato);
+        if(nuevoDato.compareTo(this.getDato()) == 0){
+            return false;
+        }
+        if(nuevoDato.compareTo(this.getDato()) > 0) {
+            if(this.getHijoDerecho() == null){
+                this.setHijoDerecho(nuevoElemento);
+            }else{
+                this.getHijoDerecho().insertar(nuevoDato);
+            }
+        }else{
+            if(nuevoDato.compareTo(this.getDato())<0){
+                if (this.getHijoIzquierdo() == null){
+                    this.setHijoIzquierdo(nuevoElemento);
+                }else{
+                    this.getHijoIzquierdo().insertar(nuevoDato);
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -93,22 +113,22 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     }
 
     @Override
-    public int obtenerNivel(Comparable<T> criterioBusqueda) {
+    public int obtenerNivel(Comparable criterioBusqueda) {
         return 0;
     }
 
     @Override
-    public void postOrder(Consumer<TDAElemento<T>> consumidor) {
+    public void postOrder(Consumer consumidor) {
 
     }
 
     @Override
-    public void preOrder(Consumer<TDAElemento<T>> consumidor) {
+    public void preOrder(Consumer consumidor) {
 
     }
 
     @Override
-    public void inOrder(Consumer<TDAElemento<T>> consumidor) {
+    public void inOrder(Consumer consumidor) {
 
     }
 }
