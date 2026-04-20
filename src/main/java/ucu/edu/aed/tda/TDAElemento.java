@@ -120,4 +120,6 @@ public interface TDAElemento <T>{
      * si no se encuentra, retorna -1
      */
     int obtenerNivel(Comparable<T> criterioBusqueda);
+
+    int obtenerTamaño();
 }

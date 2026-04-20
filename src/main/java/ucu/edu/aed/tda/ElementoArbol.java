@@ -138,32 +138,73 @@ public class ElementoArbol<T> implements TDAElemento<T> {
 
     @Override
     public int cantidadNodos() {
-        return 0;
+        return obtenerTamaño();
     }
 
     @Override
     public int altura() {
-        return 0;
+        int subArbolI = 0;
+        int subArbolD = 0;
+        if (this.getHijoIzquierdo()!= null) {
+            subArbolI=this.getHijoIzquierdo().altura();
+        }
+        if (this.getHijoDerecho()!=null) {
+            subArbolD=this.getHijoDerecho().altura();
+        }
+        return Math.max(subArbolI, subArbolD) + 1;
+         // math max devuelve el mayor entre subArbolI y subArbolD, y se le suma 1 por el nodo actual
     }
 
     @Override
-    public int obtenerNivel(Comparable criterioBusqueda) {
-        return 0;
+    public int obtenerNivel(Comparable<T> criterioBusqueda) {
+        
+        return obtenerNivelRecursivo(this, criterioBusqueda,0);
+    }
+    private int obtenerNivelRecursivo(TDAElemento<T> nodoElemento, Comparable<T> criterioBusqueda, int nivel){
+        if (nodoElemento==null) {
+            return -1;
+        }
+        if (criterioBusqueda.compareTo(nodoElemento.getDato())==0) {
+            return nivel;
+        }
+        else if (criterioBusqueda.compareTo(nodoElemento.getDato())<0) {
+            return obtenerNivelRecursivo(nodoElemento.getHijoIzquierdo(), criterioBusqueda, nivel+1);
+        }
+        else {
+            return obtenerNivelRecursivo(nodoElemento.getHijoDerecho(), criterioBusqueda, nivel+1);
+        }
+    }
+    @Override
+    public void postOrder(Consumer<TDAElemento<T>> consumidor) {
+        if (hijoIzquierdo!=null) {
+            hijoIzquierdo.postOrder(consumidor);
+        }
+        if (hijoDerecho!=null) {
+            hijoDerecho.postOrder(consumidor);
+        }
+        consumidor.accept(this);
     }
 
     @Override
-    public void postOrder(Consumer consumidor) {
-
+    public void preOrder(Consumer<TDAElemento<T>> consumidor) {
+        consumidor.accept(this);
+        if (hijoIzquierdo!=null) {
+            hijoIzquierdo.preOrder(consumidor);
+        }
+        if (hijoDerecho!=null) {
+            hijoDerecho.preOrder(consumidor);
+        }
     }
 
     @Override
-    public void preOrder(Consumer consumidor) {
-
-    }
-
-    @Override
-    public void inOrder(Consumer consumidor) {
-
+    public void inOrder(Consumer<TDAElemento<T>> consumidor) {
+        if (hijoIzquierdo!=null) {
+            hijoIzquierdo.inOrder(consumidor);
+        }
+        consumidor.accept(this);
+        if (hijoDerecho!=null) {
+            hijoDerecho.inOrder(consumidor);
+        }
     }
     public TDAElemento<T> eliminarNodo(){ // metodo auxiliar para eliminar
         if (this.hijoIzquierdo == null){
@@ -184,6 +225,17 @@ public class ElementoArbol<T> implements TDAElemento<T> {
             elHijo.setHijoDerecho(this.hijoDerecho);
             return elHijo;
         }
+    }
+    public int obtenerTamaño(){
+        int subarbolI = 0;
+        int subarbolD = 0;
+        if (hijoIzquierdo != null) {
+            subarbolI = hijoIzquierdo.obtenerTamaño();
+        }
+        if (hijoDerecho != null) {
+            subarbolD = hijoDerecho.obtenerTamaño();
+        }
+        return subarbolI + subarbolD + 1; // +1 por el nodo actual
     }
 
 }
