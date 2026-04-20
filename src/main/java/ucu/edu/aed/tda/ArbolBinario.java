@@ -3,7 +3,10 @@ package ucu.edu.aed.tda;
 import java.util.function.Consumer;
 
 public class ArbolBinario<T> implements TDAArbolBinario<T>{
-    private TDAElemento<T> raiz;
+    protected TDAElemento<T> raiz;
+    public ArbolBinario(){
+        raiz = null;
+    }
 
     @Override
     public T buscar(Comparable<T> predicate) {
@@ -26,13 +29,20 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
 
     @Override
     public boolean eliminar(Comparable<T> criterioBusqueda) {
-        return false;
+        if (esVacio() || criterioBusqueda ==null) {
+            return false;
+        }
+        if (raiz.buscar(criterioBusqueda)== null) {
+            return false;
+        }
+        raiz=raiz.eliminar(criterioBusqueda);
+        return true;
     }
 
     @Override
     public boolean insertar(Comparable<T> dato) {
         if(this.esVacio()){
-            this.raiz = new ElementoArbol<>();
+            this.raiz = new ElementoArbol<>((T) dato);
             T datoInsertar = (T) dato;
             this.raiz.setDato(datoInsertar);
             return this.raiz.getDato() == datoInsertar;
@@ -43,19 +53,31 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
         return true;
     }
 
-    @Override
+    @Override // consumer espera un dato
     public void inOrder(Consumer<T> consumidor) {
-
+        if (raiz!=null) {
+            raiz.inOrder(x -> {
+                consumidor.accept(x.getDato());
+            });
+        }
     }
 
     @Override
     public void preOrder(Consumer<T> consumidor) {
-
+        if (raiz!=null) {
+            raiz.preOrder(x -> {
+                consumidor.accept(x.getDato());
+            });
+        }
     }
 
     @Override
     public void postOrder(Consumer<T> consumidor) {
-
+        if (raiz!=null) {
+            raiz.postOrder(x -> {
+                consumidor.accept(x.getDato());
+            });
+        }
     }
 
     @Override
@@ -68,16 +90,34 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
 
     @Override
     public int cantidadNodos() {
-        return 0;
+        if (esVacio()) {
+            return 0;
+        }
+        else {
+            return raiz.cantidadNodos();
+        }
     }
 
     @Override
     public int cantidadHojas() {
-        return 0;
+        if (raiz==null) {
+            return 0;
+        }
+        else {
+            if (raiz.esHoja()) {
+                return 1;
+            }
+        }
+        return raiz.cantidadHojas();
     }
 
     @Override
     public int cantidadNodosInternos() {
-        return 0;
+        if (esVacio()) {
+            return 0;
+        }
+        else{
+            return raiz.cantidadNodosInternos();
+        }
     }
 }
