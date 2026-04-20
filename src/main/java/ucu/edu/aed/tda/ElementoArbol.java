@@ -6,6 +6,13 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     private TDAElemento<T> hijoIzquierdo;
     private TDAElemento<T> hijoDerecho;
     private T dato;
+
+    public ElementoArbol(T dato){
+        this.dato=dato;
+        this.hijoDerecho=null;
+        this.hijoIzquierdo=null;
+    }
+
     @Override
     public void setHijoIzquierdo(TDAElemento<T> hijoIzquierdo) {
         this.hijoIzquierdo = hijoIzquierdo;
@@ -18,7 +25,7 @@ public class ElementoArbol<T> implements TDAElemento<T> {
 
     @Override
     public TDAElemento<T> getHijoIzquierdo() {
-        return hijoIzquierdo;
+        return this.hijoIzquierdo;
     }
 
     @Override
@@ -59,12 +66,24 @@ public class ElementoArbol<T> implements TDAElemento<T> {
 
     @Override
     public TDAElemento<T> eliminar(Comparable<T> criterioBusqueda) {
-        return null;
+        if (criterioBusqueda.compareTo(this.getDato())<0) {
+            if (this.hijoIzquierdo !=null) {
+                this.hijoIzquierdo = this.hijoIzquierdo.eliminar(criterioBusqueda); 
+            }
+            return this;
+        }
+        else if( criterioBusqueda.compareTo(this.getDato())>0){
+            if(this.hijoDerecho !=null) {
+                this.hijoDerecho = this.hijoDerecho.eliminar(criterioBusqueda);
+            }
+            return this;
+        }
+        return eliminarNodo();
     }
 
     @Override
     public boolean insertar(Comparable<T> nuevoDato) {
-        ElementoArbol<T> nuevoElemento = new ElementoArbol<T>();
+        ElementoArbol<T> nuevoElemento = new ElementoArbol<>((T) nuevoDato);
         nuevoElemento.setDato((T) nuevoDato);
         if(nuevoDato.compareTo(this.getDato()) == 0){
             return false;
@@ -89,17 +108,32 @@ public class ElementoArbol<T> implements TDAElemento<T> {
 
     @Override
     public boolean esHoja() {
+        if(this.hijoIzquierdo== null && this.hijoDerecho== null){
+            return true;
+        }
         return false;
     }
 
     @Override
     public int cantidadHojas() {
-        return 0;
+        if(esHoja()){
+            return 1;
+        }
+        int izq = 0;
+        if (hijoIzquierdo!=null){
+            izq=hijoIzquierdo.cantidadHojas();
+        }
+        int der=0;
+        if(hijoDerecho!=null){
+            der=hijoDerecho.cantidadHojas();
+        }
+        return izq+der;
     }
 
     @Override
     public int cantidadNodosInternos() {
-        return 0;
+
+        return cantidadNodos()-cantidadHojas();
     }
 
     @Override
@@ -131,4 +165,25 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     public void inOrder(Consumer consumidor) {
 
     }
+    public TDAElemento<T> eliminarNodo(){ // metodo auxiliar para eliminar
+        if (this.hijoIzquierdo == null){
+            return this.hijoDerecho;
+        } else if (this.hijoDerecho == null){
+            return this.hijoIzquierdo;
+        } else {
+            TDAElemento<T> elHijo = this.hijoIzquierdo;
+            TDAElemento<T> elPadre = this;
+            while (elHijo.getHijoDerecho() != null){
+                elPadre = elHijo;
+                elHijo = elHijo.getHijoDerecho();
+            }
+            if (elPadre != this){
+                elPadre.setHijoDerecho(elHijo.getHijoIzquierdo());
+                elHijo.setHijoIzquierdo(this.hijoIzquierdo);
+            }
+            elHijo.setHijoDerecho(this.hijoDerecho);
+            return elHijo;
+        }
+    }
+
 }
