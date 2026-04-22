@@ -1,5 +1,6 @@
 package ucu.edu.aed.tda;
 
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public class ElementoArbol<T> implements TDAElemento<T> {
@@ -53,11 +54,15 @@ public class ElementoArbol<T> implements TDAElemento<T> {
             if(criterioBusqueda.compareTo(this.getDato()) < 0){
                 if (this.hijoIzquierdo != null){
                     resultado = this.hijoIzquierdo.buscar(criterioBusqueda);
+                }else{
+                    throw new NoSuchElementException("El elemento no se encuentra en el árbol");
                 }
             }
             else{
                 if (this.hijoDerecho != null){
                     resultado = this.hijoDerecho.buscar(criterioBusqueda);
+                }else{
+                    throw new NoSuchElementException("El elemento no se encuentra en el árbol");
                 }
             }
         }
@@ -69,12 +74,16 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         if (criterioBusqueda.compareTo(this.getDato())<0) {
             if (this.hijoIzquierdo !=null) {
                 this.hijoIzquierdo = this.hijoIzquierdo.eliminar(criterioBusqueda); 
+            }else{
+                throw new NoSuchElementException("El elemento no se encuentra en el árbol");
             }
             return this;
         }
-        else if( criterioBusqueda.compareTo(this.getDato())>0){
+        else if(criterioBusqueda.compareTo(this.getDato())>0){
             if(this.hijoDerecho !=null) {
                 this.hijoDerecho = this.hijoDerecho.eliminar(criterioBusqueda);
+            }else{
+                throw new NoSuchElementException("El elemento no se encuentra en el árbol");
             }
             return this;
         }
