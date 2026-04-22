@@ -1,8 +1,6 @@
 package ucu.edu.aed.tda;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class main2 {
     public static void main(String[] args){
@@ -18,6 +16,21 @@ public class main2 {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+
+        try(
+            FileWriter fw = new FileWriter("salidaClaves1.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw)){
+            arbol.preOrder(dato -> {
+                try {
+                    bw.write(dato.toString());
+                    bw.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

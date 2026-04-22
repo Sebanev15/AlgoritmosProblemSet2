@@ -3,10 +3,7 @@ package ucu.edu.aed.tda;
 import java.util.function.Consumer;
 
 public class ArbolBinario<T> implements TDAArbolBinario<T>{
-    protected TDAElemento<T> raiz;
-    public ArbolBinario(){
-        raiz = null;
-    }
+    private TDAElemento<T> raiz;
 
     @Override
     public T buscar(Comparable<T> predicate) {
@@ -82,9 +79,6 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
 
     @Override
     public boolean esVacio() {
-        if (this.raiz == null){
-            return true;
-        }
         return this.raiz == null;
     }
 
