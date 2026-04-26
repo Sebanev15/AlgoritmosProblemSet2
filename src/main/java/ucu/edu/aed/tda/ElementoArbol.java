@@ -246,5 +246,6 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         }
         return subarbolI + subarbolD + 1; // +1 por el nodo actual
     }
+    
 
 }

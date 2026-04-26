@@ -114,4 +114,23 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
             return raiz.cantidadNodosInternos();
         }
     }
+    public int altura(){
+        if (esVacio()) {
+            return 0;
+        }
+        else{
+            return raiz.altura();
+        }
+    }
+    public int tamaño(){
+        if (esVacio()) {
+            return 0;
+        }
+        else{
+            return raiz.obtenerTamaño();
+        }    
+    }
+    
+
 }
+
