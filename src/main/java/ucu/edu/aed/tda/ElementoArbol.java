@@ -7,6 +7,15 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     private ElementoArbol<T> hijoIzquierdo;
     private ElementoArbol<T> hijoDerecho;
     private T dato;
+    private int nivel;
+
+    public void setNivel(int nivel){
+        this.nivel = nivel;
+    }
+
+    public int getNivel(){
+        return nivel;
+    }
 
     public ElementoArbol(T dato){
         this.dato=dato;
@@ -17,11 +26,13 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     @Override
     public void setHijoIzquierdo(TDAElemento<T> hijoIzquierdo) {
         this.hijoIzquierdo = (ElementoArbol<T>) hijoIzquierdo;
+        this.hijoIzquierdo.setNivel(nivel+1);
     }
 
     @Override
     public void setHijoDerecho(TDAElemento<T> hijoDerecho) {
         this.hijoDerecho = (ElementoArbol<T>) hijoDerecho;
+        this.hijoDerecho.setNivel(nivel+1);
     }
 
     @Override
@@ -169,6 +180,7 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         
         return obtenerNivelRecursivo(this, criterioBusqueda,0);
     }
+
     private int obtenerNivelRecursivo(TDAElemento<T> nodoElemento, Comparable<T> criterioBusqueda, int nivel){
         if (nodoElemento==null) {
             return -1;
@@ -263,5 +275,25 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         }
         return listaCompletos;
     }
+
+    public TDALista<TDAElemento<T>> enNivel(TDALista<TDAElemento<T>> listaEnNivel, int nivel){
+        this.preOrder(x -> {
+            ElementoArbol<T> elemento = (ElementoArbol<T>) x;
+            if ( elemento.getNivel() == nivel){
+                listaEnNivel.agregar(elemento);
+            }
+        });
+        return listaEnNivel;
+    }
+
+    public boolean esDescendiente(TDAElemento<T> x, TDAElemento<T> y) {
+    if (x == null) return false;
+
+    if (x == y) return true;
+
+    return esDescendiente(x.getHijoIzquierdo(), y) || esDescendiente(x.getHijoDerecho(), y);
+    }
+    
+
 
 }

@@ -22,6 +22,7 @@ public class Main {
         arbol.obtenerRaiz(raiz);
 
         arbol.sustituirX(5);
-        System.out.println(arbol.evaluar());
+        ListaEnlazada<TDAElemento<String>> lista = (ListaEnlazada<TDAElemento<String>>) arbol.enNivel(1);
+        lista.imprimir();
     }
 }

@@ -44,6 +44,7 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
     public boolean insertar(Comparable<T> dato) {
         if(this.esVacio()){
             this.raiz = new ElementoArbol<>((T) dato);
+            this.raiz.setNivel(0);
             T datoInsertar = (T) dato;
             this.raiz.setDato(datoInsertar);
             return this.raiz.getDato() == datoInsertar;
@@ -187,6 +188,10 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
 
     public TDALista<TDAElemento<T>> enNivel(int nivel){
         TDALista<TDAElemento<T>> listaEnNivel = new ListaEnlazada<>();
+        if(raiz==null){
+            throw new NullPointerException("El árbol está vacío");
+        }
+        this.raiz.enNivel(listaEnNivel, nivel);
         return listaEnNivel;
     }
 }
