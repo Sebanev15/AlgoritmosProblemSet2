@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public class ElementoArbol<T> implements TDAElemento<T> {
-    private TDAElemento<T> hijoIzquierdo;
-    private TDAElemento<T> hijoDerecho;
+    private ElementoArbol<T> hijoIzquierdo;
+    private ElementoArbol<T> hijoDerecho;
     private T dato;
 
     public ElementoArbol(T dato){
@@ -16,12 +16,12 @@ public class ElementoArbol<T> implements TDAElemento<T> {
 
     @Override
     public void setHijoIzquierdo(TDAElemento<T> hijoIzquierdo) {
-        this.hijoIzquierdo = hijoIzquierdo;
+        this.hijoIzquierdo = (ElementoArbol<T>) hijoIzquierdo;
     }
 
     @Override
     public void setHijoDerecho(TDAElemento<T> hijoDerecho) {
-        this.hijoDerecho = hijoDerecho;
+        this.hijoDerecho = (ElementoArbol<T>) hijoDerecho;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ElementoArbol<T> implements TDAElemento<T> {
     public TDAElemento<T> eliminar(Comparable<T> criterioBusqueda) {
         if (criterioBusqueda.compareTo(this.getDato())<0) {
             if (this.hijoIzquierdo !=null) {
-                this.hijoIzquierdo = this.hijoIzquierdo.eliminar(criterioBusqueda); 
+                this.hijoIzquierdo = (ElementoArbol<T>) this.hijoIzquierdo.eliminar(criterioBusqueda);
             }else{
                 throw new NoSuchElementException("El elemento no se encuentra en el árbol");
             }
@@ -81,7 +81,7 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         }
         else if(criterioBusqueda.compareTo(this.getDato())>0){
             if(this.hijoDerecho !=null) {
-                this.hijoDerecho = this.hijoDerecho.eliminar(criterioBusqueda);
+                this.hijoDerecho = (ElementoArbol<T>) this.hijoDerecho.eliminar(criterioBusqueda);
             }else{
                 throw new NoSuchElementException("El elemento no se encuentra en el árbol");
             }
@@ -246,6 +246,22 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         }
         return subarbolI + subarbolD + 1; // +1 por el nodo actual
     }
-    
+
+    public TDALista<TDAElemento<T>> buscarCompletos(TDALista<TDAElemento<T>> listaCompletos){
+        if(this.getHijoDerecho()!=null && this.getHijoIzquierdo()!= null){
+            listaCompletos.agregar(this);
+            this.hijoIzquierdo.buscarCompletos(listaCompletos);
+            this.hijoDerecho.buscarCompletos(listaCompletos);
+        }else{
+            if(this.hijoDerecho != null){
+                {
+                    this.hijoDerecho.buscarCompletos(listaCompletos);
+                }
+            } else if (this.getHijoIzquierdo() != null) {
+                this.hijoIzquierdo.buscarCompletos(listaCompletos);
+            }
+        }
+        return listaCompletos;
+    }
 
 }

@@ -3,9 +3,10 @@ package ucu.edu.aed.tda;
 import java.util.function.Consumer;
 
 public class ArbolBinario<T> implements TDAArbolBinario<T>{
-    private TDAElemento<T> raiz;
+    private ElementoArbol<T> raiz;
+
     public void obtenerRaiz(TDAElemento<T> raiz){
-        this.raiz = raiz;
+        this.raiz = (ElementoArbol<T>) raiz;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
         if (raiz.buscar(criterioBusqueda)== null) {
             return false;
         }
-        raiz=raiz.eliminar(criterioBusqueda);
+        raiz = (ElementoArbol<T>) raiz.eliminar(criterioBusqueda);
         return true;
     }
 
@@ -175,6 +176,18 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
         }
         return 0;
     }
+    public TDALista<TDAElemento<T>> completos(){
+        TDALista<TDAElemento<T>> listaCompletos = new ListaEnlazada<>();
+        if(raiz==null){
+            throw new NullPointerException("El árbol está vacío");
+        }
+        this.raiz.buscarCompletos(listaCompletos);
+        return listaCompletos;
+    }
 
+    public TDALista<TDAElemento<T>> enNivel(int nivel){
+        TDALista<TDAElemento<T>> listaEnNivel = new ListaEnlazada<>();
+        return listaEnNivel;
+    }
 }
 
