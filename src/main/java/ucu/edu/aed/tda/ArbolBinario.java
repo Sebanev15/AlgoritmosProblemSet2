@@ -187,6 +187,15 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
 
     public TDALista<TDAElemento<T>> enNivel(int nivel){
         TDALista<TDAElemento<T>> listaEnNivel = new ListaEnlazada<>();
+        if(raiz==null){
+            throw new NullPointerException("El árbol está vacío");
+        }
+        if(nivel == 0){
+            listaEnNivel.agregar(this.raiz);
+            return listaEnNivel;
+        }else{
+            raiz.buscarEnNivel(nivel, listaEnNivel);
+        }
         return listaEnNivel;
     }
 }

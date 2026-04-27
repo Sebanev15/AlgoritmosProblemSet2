@@ -264,4 +264,19 @@ public class ElementoArbol<T> implements TDAElemento<T> {
         return listaCompletos;
     }
 
+    public TDALista<TDAElemento<T>> buscarEnNivel(int nivel, TDALista<TDAElemento<T>> lista){
+        if (nivel == 0) {
+            lista.agregar(this);
+            return lista;
+        } else {
+            if (hijoIzquierdo != null) {
+                hijoIzquierdo.buscarEnNivel(nivel - 1, lista);
+            }
+            if (hijoDerecho != null) {
+                hijoDerecho.buscarEnNivel(nivel - 1, lista);
+            }
+        }
+        return lista;
+    }
+
 }
