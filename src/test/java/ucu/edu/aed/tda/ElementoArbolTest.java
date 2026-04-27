@@ -2,7 +2,9 @@ package ucu.edu.aed.tda;
 
 import org.junit.jupiter.api.Test;
 
+import javax.swing.text.Element;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -310,6 +312,10 @@ public class ElementoArbolTest {
         elemento2.setHijoIzquierdo(elemento1);
         elemento1.setHijoIzquierdo(elemento0);
         assertEquals(2, elemento2.obtenerNivel(0));
+        ElementoArbol<String> prueba = new ElementoArbol<>("A");
+        prueba.setHijoIzquierdo(new ElementoArbol<>("B"));
+        String b = prueba.getHijoIzquierdo().getDato();
+        assertEquals(1, prueba.obtenerNivel(b));
     }
 
     @Test
@@ -334,7 +340,9 @@ public class ElementoArbolTest {
         List<Integer> recorrido = new ArrayList<>();
         elemento2.inOrder(x -> recorrido.add(x.getDato()));
 
-        assertEquals(List.of(1, 2, 3), recorrido);
+        assertEquals(1, recorrido.get(0));
+        assertEquals(2, recorrido.get(1));
+        assertEquals(3, recorrido.get(2));
     }
 
     @Test
@@ -345,7 +353,9 @@ public class ElementoArbolTest {
         List<Integer> recorrido = new ArrayList<>();
         elemento2.preOrder(x -> recorrido.add(x.getDato()));
 
-        assertEquals(List.of(2, 1, 3), recorrido);
+        assertEquals(2, recorrido.get(0));
+        assertEquals(1, recorrido.get(1));
+        assertEquals(3, recorrido.get(2));
     }
 
     @Test
@@ -356,6 +366,18 @@ public class ElementoArbolTest {
         List<Integer> recorrido = new ArrayList<>();
         elemento2.postOrder(x -> recorrido.add(x.getDato()));
 
-        assertEquals(List.of(1, 3, 2), recorrido);
+        List<Integer> recorrido2 = new ArrayList<>();
+
+
+        assertEquals(1, recorrido.get(0));
+        assertEquals(3, recorrido.get(1));
+        assertEquals(2, recorrido.get(2));
     }
+
+    @Test
+    public void BuscarCompletosInEmptyTreeTest() {
+        assertNull(elemento2.buscar(1));
+        assertNull(elemento2.buscar(3));
+    }
+
 }
