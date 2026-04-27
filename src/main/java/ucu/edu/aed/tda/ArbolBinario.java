@@ -4,6 +4,9 @@ import java.util.function.Consumer;
 
 public class ArbolBinario<T> implements TDAArbolBinario<T>{
     private TDAElemento<T> raiz;
+    public void obtenerRaiz(TDAElemento<T> raiz){
+        this.raiz = raiz;
+    }
 
     @Override
     public T buscar(Comparable<T> predicate) {
@@ -114,4 +117,64 @@ public class ArbolBinario<T> implements TDAArbolBinario<T>{
             return raiz.cantidadNodosInternos();
         }
     }
+    public int altura(){
+        if (esVacio()) {
+            return 0;
+        }
+        else{
+            return raiz.altura();
+        }
+    }
+    public int tamaño(){
+        if (esVacio()) {
+            return 0;
+        }
+        else{
+            return raiz.obtenerTamaño();
+        }    
+    }
+    //Ejercicio 7
+    public void sustituirX(double valor){
+        sustituirXRecursivo(raiz,valor);
+    }
+    private void sustituirXRecursivo(TDAElemento<T> nodo, double valor){
+        if (nodo==null) {
+            return;
+        }
+        if (nodo.getDato().equals("x")){
+            nodo.setDato((T) String.valueOf(valor));
+        }
+        sustituirXRecursivo(nodo.getHijoIzquierdo(), valor);
+        sustituirXRecursivo(nodo.getHijoDerecho(), valor);
+    }
+    public double evaluar(){
+        return evaluarRecursivo(raiz);
+    }
+    private double evaluarRecursivo(TDAElemento<T> nodo){
+        if (nodo==null) {
+            return 0;
+        }
+        //caso base: si el nodo es una hoja, devuelve su valor numérico
+        if(nodo.getHijoIzquierdo()==null && nodo.getHijoDerecho()==null){
+            return Double.parseDouble(nodo.getDato().toString());
+        }
+        double izq = evaluarRecursivo(nodo.getHijoIzquierdo());
+        double der = evaluarRecursivo(nodo.getHijoDerecho());
+        String operador = (String) nodo.getDato();
+        if (operador.equals("+")) {
+            return izq + der;
+        }
+        if (operador.equals("-")) {
+            return izq - der;
+        }
+        if (operador.equals("*")) {
+            return izq * der;
+        }
+        if (operador.equals("/")) {
+            return izq / der;
+        }
+        return 0;
+    }
+
 }
+
