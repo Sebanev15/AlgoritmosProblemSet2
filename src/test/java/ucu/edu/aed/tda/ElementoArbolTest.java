@@ -321,7 +321,7 @@ public class ElementoArbolTest {
         assertEquals(1, elemento2.obtenerNivel(1));
     }
     @Test
-    public void ObtenerNivelIsRightGrandSonTest() {
+    public void ObtenerNivelWhenIsRightGrandSonTest() {
         ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
         elemento2.setHijoDerecho(elemento3);
         elemento3.setHijoDerecho(elemento4);
@@ -392,7 +392,7 @@ public class ElementoArbolTest {
     }
 
     @Test
-    public void BuscarCompletosInTreeWithMoreThanOneBranch(){
+    public void BuscarCompletosInTreeWithMoreThanOneBranchTest(){
         ElementoArbol<Integer> elemento0 = new ElementoArbol<>(0);
         ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
         ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
@@ -412,7 +412,7 @@ public class ElementoArbolTest {
     }
 
     @Test
-    public void BuscarCompletosInTreeWithCompleteBranchInLeftBranches(){
+    public void BuscarCompletosInTreeWithCompleteBranchInLeftBranchesTest(){
         ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
         ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
         ElementoArbol<Integer> elemento6 = new ElementoArbol<>(6);
@@ -428,7 +428,7 @@ public class ElementoArbolTest {
     }
 
     @Test
-    public void BuscarCompletosInTreeWithCompleteBranchInRightBranches(){
+    public void BuscarCompletosInTreeWithCompleteBranchInRightBranchesTest(){
         ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
         ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
         ElementoArbol<Integer> elemento6 = new ElementoArbol<>(6);
@@ -451,7 +451,7 @@ public class ElementoArbolTest {
     }
 
     @Test
-    public void BuscarEnNivel0Test() {
+    public void BuscarEnNivelAtLevel0Test() {
         elemento2.setHijoIzquierdo(elemento1);
         elemento2.setHijoDerecho(elemento3);
         ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
@@ -461,7 +461,7 @@ public class ElementoArbolTest {
     }
 
     @Test
-    public void buscarEnNivelInTreeWithMultipleLevelsTest() {
+    public void BuscarEnNivelInTreeWithMultipleLevelsTest() {
         ElementoArbol<Integer> elemento0 = new ElementoArbol<>(0);
         ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
         ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
