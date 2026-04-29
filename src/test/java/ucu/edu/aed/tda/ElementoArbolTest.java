@@ -312,12 +312,14 @@ public class ElementoArbolTest {
         elemento2.setHijoIzquierdo(elemento1);
         elemento1.setHijoIzquierdo(elemento0);
         assertEquals(2, elemento2.obtenerNivel(0));
-        ElementoArbol<String> prueba = new ElementoArbol<>("A");
-        prueba.setHijoIzquierdo(new ElementoArbol<>("B"));
-        String b = prueba.getHijoIzquierdo().getDato();
-        assertEquals(1, prueba.obtenerNivel(b));
     }
 
+    @Test
+    public void ObtenerNivelWhenEsHijoIzquierdoTest() {
+        ElementoArbol<Integer> elemento0 = new ElementoArbol<>(0);
+        elemento2.setHijoIzquierdo(elemento1);
+        assertEquals(1, elemento2.obtenerNivel(1));
+    }
     @Test
     public void ObtenerNivelIsRightGrandSonTest() {
         ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
@@ -375,9 +377,109 @@ public class ElementoArbolTest {
     }
 
     @Test
-    public void BuscarCompletosInEmptyTreeTest() {
-        assertNull(elemento2.buscar(1));
-        assertNull(elemento2.buscar(3));
+    public void BuscarInEmptyTreeTest() {
+        assertThrows(NoSuchElementException.class, () -> elemento2.buscar(1));
     }
 
+    @Test
+    public void BuscarCompletosInTreeWithOnlyRootCompletedTest(){
+        elemento2.setHijoIzquierdo(elemento1);
+        elemento2.setHijoDerecho(elemento3);
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento2.buscarCompletos(resultado);
+        assertEquals(elemento2, resultado.head.dato());
+        assertEquals(1, resultado.tamaño());
+    }
+
+    @Test
+    public void BuscarCompletosInTreeWithMoreThanOneBranch(){
+        ElementoArbol<Integer> elemento0 = new ElementoArbol<>(0);
+        ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
+        ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
+        ElementoArbol<Integer> elemento6 = new ElementoArbol<>(6);
+        elemento3.setHijoIzquierdo(elemento1);
+        elemento3.setHijoDerecho(elemento5);
+        elemento1.setHijoIzquierdo(elemento0);
+        elemento1.setHijoDerecho(elemento2);
+        elemento5.setHijoIzquierdo(elemento4);
+        elemento5.setHijoDerecho(elemento6);
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento3.buscarCompletos(resultado);
+        assertEquals(elemento3, resultado.head.dato());
+        assertEquals(elemento1, resultado.head.siguiente.dato());
+        assertEquals(elemento5, resultado.head.siguiente.siguiente.dato());
+        assertEquals(3, resultado.tamaño());
+    }
+
+    @Test
+    public void BuscarCompletosInTreeWithCompleteBranchInLeftBranches(){
+        ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
+        ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
+        ElementoArbol<Integer> elemento6 = new ElementoArbol<>(6);
+        elemento6.setHijoIzquierdo(elemento5);
+        elemento5.setHijoIzquierdo(elemento4);
+        elemento4.setHijoIzquierdo(elemento2);
+        elemento2.setHijoIzquierdo(elemento1);
+        elemento2.setHijoDerecho(elemento3);
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento6.buscarCompletos(resultado);
+        assertEquals(1, resultado.tamaño());
+        assertEquals(elemento2, resultado.head.dato());
+    }
+
+    @Test
+    public void BuscarCompletosInTreeWithCompleteBranchInRightBranches(){
+        ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
+        ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
+        ElementoArbol<Integer> elemento6 = new ElementoArbol<>(6);
+        elemento1.setHijoDerecho(elemento2);
+        elemento2.setHijoDerecho(elemento3);
+        elemento3.setHijoDerecho(elemento5);
+        elemento5.setHijoDerecho(elemento6);
+        elemento5.setHijoIzquierdo(elemento4);
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento1.buscarCompletos(resultado);
+        assertEquals(1, resultado.tamaño());
+        assertEquals(elemento5, resultado.head.dato());
+    }
+
+    @Test
+    public void BuscarEnNivelInEmptyTreeTest() {
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento2.buscarEnNivel(1, resultado);
+        assertTrue(resultado.esVacio());
+    }
+
+    @Test
+    public void BuscarEnNivel0Test() {
+        elemento2.setHijoIzquierdo(elemento1);
+        elemento2.setHijoDerecho(elemento3);
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento2.buscarEnNivel(0, resultado);
+        assertEquals(elemento2, resultado.head.dato());
+        assertEquals(1, resultado.tamaño());
+    }
+
+    @Test
+    public void buscarEnNivelInTreeWithMultipleLevelsTest() {
+        ElementoArbol<Integer> elemento0 = new ElementoArbol<>(0);
+        ElementoArbol<Integer> elemento4 = new ElementoArbol<>(4);
+        ElementoArbol<Integer> elemento5 = new ElementoArbol<>(5);
+        ElementoArbol<Integer> elemento6 = new ElementoArbol<>(6);
+        elemento3.setHijoIzquierdo(elemento1);
+        elemento3.setHijoDerecho(elemento5);
+        elemento1.setHijoIzquierdo(elemento0);
+        elemento1.setHijoDerecho(elemento2);
+        elemento5.setHijoIzquierdo(elemento4);
+        elemento5.setHijoDerecho(elemento6);
+
+        ListaEnlazada<TDAElemento<Integer>> resultado = new ListaEnlazada<>();
+        resultado =(ListaEnlazada<TDAElemento<Integer>>) elemento3.buscarEnNivel(2, resultado);
+
+        assertEquals(4, resultado.tamaño());
+        assertEquals(elemento0, resultado.head.dato());
+        assertEquals(elemento2, resultado.head.siguiente.dato());
+        assertEquals(elemento4, resultado.head.siguiente.siguiente.dato());
+        assertEquals(elemento6, resultado.head.siguiente.siguiente.siguiente.dato());
+    }
 }
